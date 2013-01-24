@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.snowdream.android</groupId>
 	<artifactId>autoupdate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>apklib</packaging>
 	<name>autoupdate</name>
-
+	<description>The android library project - autoupdate</description>
+	<url>https://github.com/snowdream/android-autoupdate</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git@github.com:snowdream/android-autoupdate.git</connection>
+		<developerConnection>scm:git:git@github.com:snowdream/android-autoupdate.git</developerConnection>
+		<url>git@github.com:snowdream/android-autoupdate.git</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>snowdream</id>
+			<name>yanghui</name>
+			<email>yanghui1986527@gmail.com</email>
+		</developer>
+	</developers>
 	<properties>
 		<platform.version> 2.3.1
 		</platform.version>
@@ -25,7 +50,7 @@
 		<dependency>
 			<groupId>com.github.snowdream.android</groupId>
 			<artifactId>log</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.loopj.android.http</groupId>
@@ -36,6 +61,27 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<type>jar</type>
+									<file>${project.build.directory}/${project.build.finalName}.jar</file>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
