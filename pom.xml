@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -47,13 +48,13 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.loopj.android.http</groupId>
-			<artifactId>android-async-http</artifactId>
-			<version>1.4.2</version>
+			<groupId>com.github.snowdream.android</groupId>
+			<artifactId>log</artifactId>
+			<version>0.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.snowdream.android</groupId>
-			<artifactId>log</artifactId>
+			<artifactId>android-async-http</artifactId>
 			<version>0.0.2</version>
 		</dependency>
 	</dependencies>

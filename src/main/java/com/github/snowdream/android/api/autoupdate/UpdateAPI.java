@@ -1,9 +1,9 @@
 package com.github.snowdream.android.api.autoupdate;
 
-import com.github.snowdream.android.Log;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.github.snowdream.android.http.AsyncHttpClient;
+import com.github.snowdream.android.http.AsyncHttpResponseHandler;
+import com.github.snowdream.android.http.RequestParams;
+import com.github.snowdream.android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,7 +29,6 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
