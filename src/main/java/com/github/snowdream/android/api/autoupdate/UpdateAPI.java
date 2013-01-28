@@ -273,10 +273,12 @@ public class UpdateAPI implements IUpdateCheckListener{
     }
 
     private void notNewVersionShow(final VersionInfo newInfo) {
-        if (mContext == null || newInfo == null || oldInfo == null) {
+        if (mContext == null ||newInfo == null || oldInfo == null) {
             return;
         }
         
+            
+
         StringBuffer sb = new StringBuffer();
         sb.append("当前版本:");
         sb.append(oldInfo.getVersionName());
@@ -295,11 +297,13 @@ public class UpdateAPI implements IUpdateCheckListener{
 
         }).create();// 创建
         // 显示对话框
+        if (!((Activity)mContext).isFinishing()) {
         dialog.show();
+        }
     }
 
     private void doNewVersionUpdate(final VersionInfo newInfo) {
-        if (mContext == null || newInfo == null || oldInfo == null) {
+        if (mContext == null ||newInfo == null || oldInfo == null) {
             return;
         }
 
@@ -313,7 +317,7 @@ public class UpdateAPI implements IUpdateCheckListener{
         sb.append(" Code:");
         sb.append(newInfo.getVersionCode());
         sb.append(", 是否更新?");
-        new AlertDialog.Builder(mContext)
+        Dialog dialog = new AlertDialog.Builder(mContext)
         .setTitle("软件更新")
         .setMessage(sb.toString())
         // 设置内容
@@ -356,7 +360,12 @@ public class UpdateAPI implements IUpdateCheckListener{
                     ((Activity) mContext).finish();
                 }
             }
-        }).create().show();// 创建
+        }).create();
+        
+        // 显示对话框
+        if (!((Activity)mContext).isFinishing()) {
+        dialog.show();
+        }
     }
 
     /**
