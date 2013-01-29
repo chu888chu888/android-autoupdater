@@ -40,7 +40,7 @@ http://helloworld-snowdream.herokuapp.com/update.xml
 ```
 
 5、where you want to check update,write as follows.
-```  
+```java
 UpdateAPI update = new UpdateAPI(this);  
 update.setmUpdateUrl("http://helloworld-snowdream.herokuapp.com/update.xml");  
 update.check();  
