@@ -55,6 +55,9 @@ public final class UpdateOptions {
 
         long period = 0;
         switch (updatePeriod) {
+            case NEVER:
+                period = -1;
+                break;
             case EACH_ONE_DAY:
                 period = 1 * 24 * 60 * 60 * 1000;
                 break;
@@ -98,7 +101,7 @@ public final class UpdateOptions {
      *
      * @return
      */
-    public boolean shouldForceUpdate(){
+    public boolean shouldForceUpdate() {
         return forceUpdate;
     }
 
@@ -107,7 +110,7 @@ public final class UpdateOptions {
      *
      * @return
      */
-    public String getCheckUrl(){
+    public String getCheckUrl() {
         return checkUrl;
     }
 

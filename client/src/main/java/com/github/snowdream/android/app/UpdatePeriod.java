@@ -7,6 +7,11 @@ package com.github.snowdream.android.app;
  */
 public enum UpdatePeriod {
     /**
+     * Never check for Update
+     */
+    NEVER,
+
+    /**
      * Each time you check for update.see@UpdateManager#check
      */
     EACH_TIME,
