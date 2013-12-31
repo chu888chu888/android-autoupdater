@@ -14,6 +14,7 @@ public final class UpdateOptions {
     private final boolean checkUpdate;
     private final String checkUrl;
     private final Context context;
+    private final UpdateFormat updateFormat;
 
     private UpdateOptions(Builder builder) {
         this.updatePeriod = builder.updatePeriod;
@@ -21,6 +22,7 @@ public final class UpdateOptions {
         this.checkUpdate = builder.checkUpdate;
         this.checkUrl = builder.checkUrl;
         this.context = builder.context;
+        this.updateFormat = builder.updateFormat;
     }
 
     /**
@@ -114,12 +116,29 @@ public final class UpdateOptions {
         return checkUrl;
     }
 
+    /**
+     * Get the update period
+     * @return
+     */
+    public UpdatePeriod getUpdatePeriod(){
+        return updatePeriod;
+    }
+
+    /**
+     * Get the update format
+     * @return
+     */
+    public UpdateFormat getUpdateFormat(){
+        return  updateFormat;
+    }
+
     public static class Builder {
         private UpdatePeriod updatePeriod = UpdatePeriod.EACH_TIME;
         private boolean forceUpdate = false;
         private String checkUrl = null;
         private Context context = null;
         private boolean checkUpdate = false;
+        private UpdateFormat updateFormat = UpdateFormat.JSON;
 
         public Builder(Context context) {
             this.context = context.getApplicationContext();
@@ -169,6 +188,17 @@ public final class UpdateOptions {
             this.checkUrl = checkUrl;
             return this;
         }
+
+        /**
+         * Set the format  {@link com.github.snowdream.android.app.UpdateFormat}
+         * @param updateFormat
+         * @return
+         */
+        public Builder updateFormat(UpdateFormat updateFormat) {
+            this.updateFormat = updateFormat;
+            return this;
+        }
+
 
         /**
          * Builds configured {@link UpdateOptions} object
