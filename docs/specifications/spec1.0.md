@@ -24,9 +24,9 @@ The server can answer a response as follows:
         <default>update tips</default>
         <en>update tips</en>
         <zh>升级提示</zh>
-        <zh_CN>升级提示</zh>
-        <zh_TW>升级提示</zh>
-        <zh_HK>升级提示</zh>
+        <zh_CN>升级提示</zh_CN>
+        <zh_TW>升级提示</zh_TW>
+        <zh_HK>升级提示</zh_HK>
         ...
     </updateTips>
 </updateInfo>  
