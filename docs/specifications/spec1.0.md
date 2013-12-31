@@ -20,7 +20,15 @@ The server can answer a response as follows:
     <versionName>2.0</versionName>  
     <forceUpdate>false</forceUpdate>  
     <apkUrl>http://helloworld-snowdream.herokuapp.com/explorer-2.0.apk</apkUrl>
-    <updateTips>update tips</updateTips>
+    <updateTips>
+        <default>update tips</default>
+        <en>update tips</en>
+        <zh>升级提示</zh>
+        <zh_CN>升级提示</zh>
+        <zh_TW>升级提示</zh>
+        <zh_HK>升级提示</zh>
+        ...
+    </updateTips>
 </updateInfo>  
 ```
 
@@ -34,7 +42,15 @@ The server can answer a response as follows:
     versionName: 2.0
     forceUpdate: false
     apkUrl: http://helloworld-snowdream.herokuapp.com/explorer-2.0.apk
-    updateTips: update tips
+    updateTips: {
+            default: update tips
+            en:  update tips
+            zh:  升级提示
+            zh_CN: 升级提示
+            zh_TW: 升級提示
+            zh_HK: 升级提示
+                 ...
+    }
 }
 ```
 * *updateInfo*: the entry of update info
