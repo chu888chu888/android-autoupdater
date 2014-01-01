@@ -12,6 +12,7 @@ public final class UpdateOptions {
     private final UpdatePeriod updatePeriod;
     private final boolean forceUpdate;
     private final boolean checkUpdate;
+    private final boolean checkPackageName;
     private final String checkUrl;
     private final Context context;
     private final UpdateFormat updateFormat;
@@ -20,6 +21,7 @@ public final class UpdateOptions {
         this.updatePeriod = builder.updatePeriod;
         this.forceUpdate = builder.forceUpdate;
         this.checkUpdate = builder.checkUpdate;
+        this.checkPackageName = builder.checkPackageName;
         this.checkUrl = builder.checkUrl;
         this.context = builder.context;
         this.updateFormat = builder.updateFormat;
@@ -108,6 +110,15 @@ public final class UpdateOptions {
     }
 
     /**
+     * Should the client check PackageName
+     *
+     * @return
+     */
+    public boolean shouldCheckPackageName() {
+        return checkPackageName;
+    }
+
+    /**
      * Get the check url
      *
      * @return
@@ -118,18 +129,20 @@ public final class UpdateOptions {
 
     /**
      * Get the update period
+     *
      * @return
      */
-    public UpdatePeriod getUpdatePeriod(){
+    public UpdatePeriod getUpdatePeriod() {
         return updatePeriod;
     }
 
     /**
      * Get the update format
+     *
      * @return
      */
-    public UpdateFormat getUpdateFormat(){
-        return  updateFormat;
+    public UpdateFormat getUpdateFormat() {
+        return updateFormat;
     }
 
     public static class Builder {
@@ -138,6 +151,7 @@ public final class UpdateOptions {
         private String checkUrl = null;
         private Context context = null;
         private boolean checkUpdate = false;
+        private boolean checkPackageName = true;
         private UpdateFormat updateFormat = UpdateFormat.JSON;
 
         public Builder(Context context) {
@@ -161,8 +175,8 @@ public final class UpdateOptions {
          *
          * @return Builder
          */
-        public Builder forceUpdate() {
-            forceUpdate = true;
+        public Builder forceUpdate(boolean forceUpdate) {
+            this.forceUpdate = forceUpdate;
             return this;
         }
 
@@ -172,8 +186,8 @@ public final class UpdateOptions {
          *
          * @return
          */
-        public Builder checkUpdate() {
-            checkUpdate = true;
+        public Builder checkUpdate(boolean checkUpdate) {
+            this.checkUpdate = checkUpdate;
             return this;
         }
 
@@ -190,7 +204,19 @@ public final class UpdateOptions {
         }
 
         /**
+         * Whether check the package name. if true,then the package name of the local app should be the same as
+         * new app.if not set,true default.
+         * @param checkPackageName
+         * @return
+         */
+        public Builder checkPackageName(boolean checkPackageName){
+            this.checkPackageName = checkPackageName;
+            return this;
+        }
+
+        /**
          * Set the format  {@link com.github.snowdream.android.app.UpdateFormat}
+         *
          * @param updateFormat
          * @return
          */

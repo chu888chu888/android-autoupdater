@@ -12,6 +12,7 @@ It support two formats: *xml* and *json*. which format will be used,is decided b
 The server can answer a response as follows:
 ###xml
 ```xml
+ <?xml version=”1.0” encoding=”UTF-8”?>
 <updateInfo>
     <appName>android-explorer</appName>
     <appDescription>A Free File Manager for Android</appDescription>
