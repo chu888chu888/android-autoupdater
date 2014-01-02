@@ -28,18 +28,6 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
-
-        UpdateManager manager = new UpdateManager(this);
-
-        UpdateOptions options = new UpdateOptions.Builder(this)
-                .checkUrl("https://github.com/snowdream/android-autoupdate/blob/master/docs/test/updateinfo.json")
-                .updateFormat(UpdateFormat.JSON)
-                .updatePeriod(UpdatePeriod.EACH_TIME)
-                .checkPackageName(true)
-                .build();
-
-        manager.check(this,options);
     }
 
 
@@ -58,6 +46,16 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            UpdateManager manager = new UpdateManager(this);
+
+            UpdateOptions options = new UpdateOptions.Builder(this)
+                    .checkUrl("https://raw.github.com/snowdream/android-autoupdate/master/docs/test/updateinfo.json")
+                    .updateFormat(UpdateFormat.JSON)
+                    .updatePeriod(UpdatePeriod.EACH_TIME)
+                    .checkPackageName(true)
+                    .build();
+
+            manager.check(this, options);
             return true;
         }
         return super.onOptionsItemSelected(item);

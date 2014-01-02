@@ -15,6 +15,7 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.snowdream.android.util.Log;
 import com.github.snowdream.android.util.concurrent.AsyncTask;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 
 /**
@@ -90,7 +91,11 @@ public class UpdateManager {
     }
 
     public void check(Context context, UpdateOptions options, AbstractUpdateListener listener) {
-        if (this.context == null && context == null) {
+        if (context != null) {
+            this.context = context;
+        }
+
+        if (this.context == null) {
             Log.w("The Context is NUll!");
             handler.obtainMessage(
                     MSG_ERROR,
@@ -99,8 +104,9 @@ public class UpdateManager {
         }
 
         if (listener == null) {
-            this.listener = new DefaultUpdateListener();
+            listener = new DefaultUpdateListener();
         }
+        this.listener = listener;
 
         if (options == null) {
             Log.w("The UpdateOptions is NUll!");
@@ -109,6 +115,7 @@ public class UpdateManager {
                     new UpdateException(UpdateException.UPDATE_OPTIONS_NOT_VALID));
             return;
         }
+        this.options = options;
 
         //set the handler and the update options to the AbstractUpdateListener,etc
         listener.setContext(context);
@@ -142,7 +149,7 @@ public class UpdateManager {
             }
 
             String url = urls[0];
-            if (URLUtil.isNetworkUrl(url)) {
+            if (!URLUtil.isNetworkUrl(url)) {
                 Log.e("There is no url.");
                 handler.obtainMessage(
                         MSG_SHOW_NO_UPDATE_UI);
@@ -154,7 +161,13 @@ public class UpdateManager {
             String json = null;
             switch (options.getUpdateFormat()) {
                 case XML:
-                    xml = HttpRequest.get(url).followRedirects(true).accept("application/xml").acceptCharset(HttpRequest.CHARSET_UTF8).body(HttpRequest.CHARSET_UTF8);
+                    xml = HttpRequest.get(url)
+                            .followRedirects(true)
+                            .accept("application/xml")
+                            .acceptCharset(HttpRequest.CHARSET_UTF8)
+                            .trustAllCerts()
+                            .trustAllHosts()
+                            .body(HttpRequest.CHARSET_UTF8);
 
                     if (!TextUtils.isEmpty(xml)) {
                         // XMLSerializer xmlSerializer = new XMLSerializer();
@@ -163,9 +176,23 @@ public class UpdateManager {
                     break;
                 case JSON:
                 default:
-                    json = HttpRequest.get(url).followRedirects(true).accept("application/json").acceptCharset(HttpRequest.CHARSET_UTF8).body(HttpRequest.CHARSET_UTF8);
-                    Gson gson = new Gson();
-                    info = gson.fromJson(json, UpdateInfo.class);
+                    try {
+                        json = HttpRequest.get(url)
+                                .followRedirects(true)
+                                .accept("application/json")
+                                .acceptCharset(HttpRequest.CHARSET_UTF8)
+                                .trustAllCerts()
+                                .trustAllHosts()
+                                .body(HttpRequest.CHARSET_UTF8);
+                        Gson gson = new Gson();
+                        info = gson.fromJson(json, UpdateInfo.class);
+                    } catch (HttpRequest.HttpRequestException e) {
+                        e.printStackTrace();
+                        Log.e("HttpRequest.HttpRequestExceptio",e);
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                        Log.e("JsonSyntaxException",e);
+                    }
                     break;
             }
 
