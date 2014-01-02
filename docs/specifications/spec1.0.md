@@ -36,20 +36,20 @@ The server can answer a response as follows:
 ###json
 ```json
 {
-    appName: android-explorer
-    appDescription: A Free File Manager for Android
-    packageName: com.github.snowdream.android.apps.explorer
-    versionCode: 2
-    versionName: 2.0
-    forceUpdate: false
-    apkUrl: http://helloworld-snowdream.herokuapp.com/explorer-2.0.apk
-    updateTips: {
-            default: update tips
-            en:  update tips
-            zh:  升级提示
-            zh_CN: 升级提示
-            zh_TW: 升級提示
-            zh_HK: 升级提示
+    "appName": "android-explorer",
+    "appDescription": "A Free File Manager for Android",
+    "packageName": "com.github.snowdream.android.apps.explorer",
+    "versionCode": "2",
+    "versionName": "2.0",
+    "forceUpdate": false,
+    "apkUrl": "http://helloworld-snowdream.herokuapp.com/explorer-2.0.apk",
+   " updateTips": {
+            "default": "update tips",
+            "en":  "update tips",
+            "zh":  "升级提示",
+            "zh_CN": "升级提示",
+            "zh_TW": "升級提示",
+           " zh_HK": "升级提示",
                  ...
     }
 }
