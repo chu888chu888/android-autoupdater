@@ -48,9 +48,9 @@ public final class UpdateOptions {
         long now = System.currentTimeMillis();
 
         String PREFS_NAME = context.getResources().getString(R.string.preference_name);
-        String PREFS_KEY = context.getResources().getString(R.string.preference_key_next_check_update_time);
+        String PREFS_KEY_NEXT_CHECK_UPDATE_TIME = context.getResources().getString(R.string.preference_key_next_check_update_time);
         SharedPreferences sp = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        long next = sp.getLong(PREFS_KEY, -1);
+        long next = sp.getLong(PREFS_KEY_NEXT_CHECK_UPDATE_TIME, -1);
 
         if (next == -1) {
             shouldCheckUpdate = true;

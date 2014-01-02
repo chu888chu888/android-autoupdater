@@ -2,6 +2,7 @@ package com.github.snowdream.android.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -23,109 +24,45 @@ public class UpdateManager {
     /**
      * Start checking for update
      */
-    private static final int MSG_START = 0;
+    protected static final int MSG_START = 0;
     /**
      * Finish checking for update
      */
-    private static final int MSG_FINISH = 1;
+    protected static final int MSG_FINISH = 1;
     /**
      * There is no need to update.
      */
-    private static final int MSG_SHOW_NO_UPDATE_UI = 2;
+    protected static final int MSG_SHOW_NO_UPDATE_UI = 2;
     /**
      * There is no need to update.
      */
-    private static final int MSG_SHOW_UPDATE_UI = 3;
+    protected static final int MSG_SHOW_UPDATE_UI = 3;
     /**
      * There is no need to update.
      */
-    private static final int MSG_SHOW_UPDATE_PROGRESS_UI = 4;
+    protected static final int MSG_SHOW_UPDATE_PROGRESS_UI = 4;
 
     /**
      * click to update
      */
-    private static final int MSG_UPDATE = 10;
+    protected static final int MSG_INFORM_UPDATE = 10;
     /**
      * click to cancel the update
      */
-    private static final int MSG_CANCEL = 11;
+    protected static final int MSG_INFORM_CANCEL = 11;
     /**
      * click to skip the update
      */
-    private static final int MSG_SKIP = 12;
+    protected static final int MSG_INFORM_SKIP = 12;
     /**
      * error occurs
      */
-    private static final int MSG_ERROR = 6;
+    protected static final int MSG_ERROR = 6;
     private Context context = null;
-    private UpdateListener listener = null;
+    private AbstractUpdateListener listener = null;
     private UpdateOptions options = null;
     private UIHandler handler = new UIHandler();
     private DownloadTask downloadTask = null;
-    private UpdateListener updateListener = new UpdateListener() {
-        @Override
-        public void onShowUpdateUI(UpdateInfo info) {
-            super.onShowUpdateUI(info);
-        }
-
-        @Override
-        public void onShowNoUpdateUI() {
-            super.onShowNoUpdateUI();
-        }
-
-        @Override
-        public void onShowUpdateProgressUI(DownloadTask task, int progress) {
-            super.onShowUpdateProgressUI(task, progress);
-        }
-
-        @Override
-        public void informSkip() {
-            super.informSkip();
-        }
-
-        @Override
-        public void informUpdate(UpdateInfo info) {
-            if (info == null) {
-                return;
-            }
-
-            DownloadManager manager = new DownloadManager(context);
-
-            downloadTask = new DownloadTask(context);
-            downloadTask.setUrl(info.getApkUrl());
-
-            manager.add(downloadTask, new DownloadListener<Integer, DownloadTask>() {
-                @Override
-                public void onProgressUpdate(Integer... values) {
-                    super.onProgressUpdate(values);
-                    handler.obtainMessage(
-                            MSG_SHOW_UPDATE_PROGRESS_UI, values[0], -1);
-                }
-
-                @Override
-                public void onSuccess(DownloadTask downloadTask) {
-                    super.onSuccess(downloadTask);
-                    if (downloadTask != null && !TextUtils.isEmpty(downloadTask.getPath())) {
-                        install(context, downloadTask.getPath());
-                    }
-                }
-            });
-        }
-
-        @Override
-        public void informCancel() {
-        }
-
-        @Override
-        public void ExitApp() {
-            if (context != null) {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        }
-    };
 
     /**
      * install the apk
@@ -149,10 +86,10 @@ public class UpdateManager {
     }
 
     public void check(Context context, UpdateOptions options) {
-        check(context, options, updateListener);
+        check(context, options, null);
     }
 
-    public void check(Context context, UpdateOptions options, UpdateListener listener) {
+    public void check(Context context, UpdateOptions options, AbstractUpdateListener listener) {
         if (this.context == null && context == null) {
             Log.w("The Context is NUll!");
             handler.obtainMessage(
@@ -162,7 +99,7 @@ public class UpdateManager {
         }
 
         if (listener == null) {
-            this.listener = updateListener;
+            this.listener = new DefaultUpdateListener();
         }
 
         if (options == null) {
@@ -172,6 +109,11 @@ public class UpdateManager {
                     new UpdateException(UpdateException.UPDATE_OPTIONS_NOT_VALID));
             return;
         }
+
+        //set the handler and the update options to the AbstractUpdateListener,etc
+        listener.setContext(context);
+        listener.setHandler(handler);
+        listener.setUpdateOptions(options);
 
         if (options.shouldCheckUpdate()) {
             AsycCheckUpdateTask checkUpdateTask = new AsycCheckUpdateTask(listener);
@@ -186,7 +128,7 @@ public class UpdateManager {
         private AsycCheckUpdateTask() {
         }
 
-        public AsycCheckUpdateTask(UpdateListener listener) {
+        public AsycCheckUpdateTask(AbstractUpdateListener listener) {
             super(listener);
         }
 
@@ -241,20 +183,133 @@ public class UpdateManager {
                     String packageName = context.getPackageName();
 
                     if (options.shouldCheckPackageName() && !updateInfo.getPackageName().equals(packageName)) {
-                        ((UpdateListener) listener).onShowNoUpdateUI();
+                        ((AbstractUpdateListener) listener).onShowNoUpdateUI();
                         return;
                     }
+                    String PREFS_NAME = context.getResources().getString(R.string.preference_name);
+                    String PREFS_KEY_SKIP_CHECK_UPDATE_VERSION_CODE = context.getResources().getString(R.string.preference_key_skip_check_update_version_code);
+                    SharedPreferences sp = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    String skip_version_code = sp.getString(PREFS_KEY_SKIP_CHECK_UPDATE_VERSION_CODE, "-1");
 
                     if (Integer.parseInt(updateInfo.getVersionCode()) > versionCode) {
-                        ((UpdateListener) listener).onShowUpdateUI(updateInfo);
+                        if (!updateInfo.isForceUpdate() && !options.shouldForceUpdate() && skip_version_code.equalsIgnoreCase(updateInfo.getVersionCode())) {
+                            ((AbstractUpdateListener) listener).onShowNoUpdateUI();
+                        } else {
+                            ((AbstractUpdateListener) listener).onShowUpdateUI(updateInfo);
+                        }
                     } else {
-                        ((UpdateListener) listener).onShowNoUpdateUI();
+                        ((AbstractUpdateListener) listener).onShowNoUpdateUI();
                     }
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                     Log.e("can not get the package info", e);
                 }
             }
+        }
+    }
+
+
+    /**
+     * user click to confirm the update
+     */
+    private void informUpdate(UpdateInfo info) {
+        if (info == null) {
+            return;
+        }
+
+        DownloadManager manager = new DownloadManager(context);
+
+        downloadTask = new DownloadTask(context);
+        downloadTask.setUrl(info.getApkUrl());
+
+        manager.add(downloadTask, new DownloadListener<Integer, DownloadTask>() {
+            @Override
+            public void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
+                handler.obtainMessage(
+                        MSG_SHOW_UPDATE_PROGRESS_UI, values[0], -1);
+            }
+
+            @Override
+            public void onSuccess(DownloadTask downloadTask) {
+                super.onSuccess(downloadTask);
+                if (downloadTask != null && !TextUtils.isEmpty(downloadTask.getPath())) {
+                    install(context, downloadTask.getPath());
+
+                    caculateNextTime(null);
+                }
+            }
+        });
+    }
+
+    /**
+     * caculate the next time to update
+     */
+    private void caculateNextTime(UpdateInfo info) {
+        long now = System.currentTimeMillis();
+
+        String PREFS_NAME = context.getResources().getString(R.string.preference_name);
+        String PREFS_KEY_NEXT_CHECK_UPDATE_TIME = context.getResources().getString(R.string.preference_key_next_check_update_time);
+        String PREFS_KEY_SKIP_CHECK_UPDATE_VERSION_CODE = context.getResources().getString(R.string.preference_key_skip_check_update_version_code);
+        SharedPreferences sp = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+
+        long period = 0;
+        switch (options.getUpdatePeriod()) {
+            case NEVER:
+                period = -1;
+                break;
+            case EACH_ONE_DAY:
+                period = 1 * 24 * 60 * 60 * 1000;
+                break;
+            case EACH_TWO_DAYS:
+                period = 2 * 24 * 60 * 60 * 1000;
+                break;
+            case EACH_THREE_DAYS:
+                period = 3 * 24 * 60 * 60 * 1000;
+                break;
+            case EACH_ONE_WEEK:
+                period = 7 * 24 * 60 * 60 * 1000;
+                break;
+            case EACH_TWO_WEEKS:
+                period = 14 * 24 * 60 * 60 * 1000;
+                break;
+            case EACH_THREE_WEEKS:
+                period = 21 * 24 * 60 * 60 * 1000;
+                break;
+            case EACH_ONE_MONTH:
+                period = 30 * 24 * 60 * 60 * 1000;
+                break;
+            case EACH_TIME:
+            default:
+                period = 0;
+                break;
+        }
+
+        long next = now + period;
+        editor.putLong(PREFS_KEY_NEXT_CHECK_UPDATE_TIME, next);
+        if (info != null) {
+            editor.putString(PREFS_KEY_SKIP_CHECK_UPDATE_VERSION_CODE, info.getVersionCode());
+        }
+        editor.commit();
+    }
+
+    /**
+     * user click to cancel the update
+     */
+    private void informCancel(UpdateInfo info) {
+    }
+
+    /**
+     * user click to skip the update
+     */
+    private void informSkip(UpdateInfo info) {
+        if (info == null) {
+            return;
+        }
+
+        if (!options.shouldForceUpdate() && !info.isForceUpdate()) {
+            caculateNextTime(info);
         }
     }
 
@@ -281,11 +336,14 @@ public class UpdateManager {
                         listener.onShowUpdateProgressUI(downloadTask, msg.arg1);
                     }
                     break;
-                case MSG_UPDATE:
+                case MSG_INFORM_UPDATE:
+                    informUpdate((UpdateInfo) msg.obj);
                     break;
-                case MSG_CANCEL:
+                case MSG_INFORM_CANCEL:
+                    informCancel((UpdateInfo) msg.obj);
                     break;
-                case MSG_SKIP:
+                case MSG_INFORM_SKIP:
+                    informSkip((UpdateInfo) msg.obj);
                     break;
                 default:
                     break;
