@@ -15,7 +15,11 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.snowdream.android.util.Log;
 import com.github.snowdream.android.util.concurrent.AsyncTask;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -184,8 +188,23 @@ public class UpdateManager {
                                 .trustAllCerts()
                                 .trustAllHosts()
                                 .body(HttpRequest.CHARSET_UTF8);
-                        Gson gson = new Gson();
-                        info = gson.fromJson(json, UpdateInfo.class);
+                        Gson gson = new GsonBuilder()
+                                .enableComplexMapKeySerialization()
+                                .create();
+                        //info = gson.fromJson(json, UpdateInfo.class);
+                        Map tips = new HashMap<String,String>();
+                        info = new UpdateInfo();
+                        info.setApkUrl("https://raw.github.com/snowdream/android-autoupdate/master/docs/test/android-autoupdater-v0.0.2-release.apk");
+                        info.setVersionCode("2");
+                        info.setVersionName("2.0");
+                        tips.put("default", "update tip");
+                        tips.put("en", "update tip");
+                        tips.put("zh", "升级提示");
+                        tips.put("zh_CN","升级提示");
+                        info.setUpdateTips(tips);
+                        info.setPackageName("com.github.snowdream.android.apps");
+                        info.setForceUpdate(false);
+
                     } catch (HttpRequest.HttpRequestException e) {
                         e.printStackTrace();
                         Log.e("HttpRequest.HttpRequestExceptio",e);
