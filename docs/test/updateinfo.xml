@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <updateInfo>
-    <appName>android-explorer</appName>
-    <appDescription>A Free File Manager for Android</appDescription>
-    <packageName>com.github.snowdream.android.apps.explorer</packageName>
+    <appName>android-autoupdater</appName>
+    <appDescription>android autoupdater</appDescription>
+    <packageName>com.github.snowdream.android.apps</packageName>
     <versionCode>2</versionCode>
     <versionName>2.0</versionName>
     <forceUpdate>false</forceUpdate>
-    <apkUrl>http://helloworld-snowdream.herokuapp.com/explorer-2.0.apk</apkUrl>
+    <apkUrl>https://raw.github.com/snowdream/android-autoupdate/master/docs/test/android-autoupdater-v0.0.2-release.apk</apkUrl>
     <updateTips>
         <default>update tips</default>
         <en>update tips</en>
