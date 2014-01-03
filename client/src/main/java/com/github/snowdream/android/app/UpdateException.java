@@ -33,6 +33,11 @@ public class UpdateException extends Exception {
      */
     public static final int UPDATE_OPTIONS_NOT_VALID = 2;
 
+    /**
+     * Parse error
+     */
+    public static final int PARSE_ERROR = 3;
+
     private int code = UNKNOWN;
 
     public UpdateException() {
@@ -54,6 +59,9 @@ public class UpdateException extends Exception {
                 break;
             case UPDATE_OPTIONS_NOT_VALID:
                 message = "The Update Options is null or not valid!";
+                break;
+            case PARSE_ERROR:
+                message = "Failed to parse the UpdateInfo from the xml or json string.";
                 break;
             case UNKNOWN:
             default:

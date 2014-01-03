@@ -10,7 +10,7 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
 
     @Override
     public void onShowUpdateUI(UpdateInfo info) {
-
+            informUpdate(info);
     }
 
     @Override

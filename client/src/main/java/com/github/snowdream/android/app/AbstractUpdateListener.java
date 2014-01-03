@@ -91,7 +91,7 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
         if (handler != null) {
             handler.obtainMessage(
                     UpdateManager.MSG_INFORM_UPDATE,
-                    info);
+                    info).sendToTarget();
         }
     }
 
@@ -116,7 +116,7 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
     public final void informSkip(UpdateInfo info) {
         if (handler != null) {
             handler.obtainMessage(
-                    UpdateManager.MSG_INFORM_SKIP, info);
+                    UpdateManager.MSG_INFORM_SKIP, info).sendToTarget();
         }
 
         if ((updateOptions != null && updateOptions.shouldForceUpdate())

@@ -103,7 +103,7 @@ public class UpdateManager {
             Log.w("The Context is NUll!");
             handler.obtainMessage(
                     MSG_ERROR,
-                    new UpdateException(UpdateException.CONTEXT_NOT_VALID));
+                    new UpdateException(UpdateException.CONTEXT_NOT_VALID)).sendToTarget();
             return;
         }
 
@@ -116,7 +116,7 @@ public class UpdateManager {
             Log.w("The UpdateOptions is NUll!");
             handler.obtainMessage(
                     MSG_ERROR,
-                    new UpdateException(UpdateException.UPDATE_OPTIONS_NOT_VALID));
+                    new UpdateException(UpdateException.UPDATE_OPTIONS_NOT_VALID)).sendToTarget();
             return;
         }
         this.options = options;
@@ -131,7 +131,7 @@ public class UpdateManager {
             checkUpdateTask.execute(options.getCheckUrl());
         } else {
             handler.obtainMessage(
-                    MSG_SHOW_NO_UPDATE_UI);
+                    MSG_SHOW_NO_UPDATE_UI).sendToTarget();
         }
     }
 
@@ -148,7 +148,7 @@ public class UpdateManager {
             if (urls.length <= 0) {
                 Log.e("There is no url.");
                 handler.obtainMessage(
-                        MSG_SHOW_NO_UPDATE_UI);
+                        MSG_SHOW_NO_UPDATE_UI).sendToTarget();
                 return null;
             }
 
@@ -156,7 +156,7 @@ public class UpdateManager {
             if (!URLUtil.isNetworkUrl(url)) {
                 Log.e("There is no url.");
                 handler.obtainMessage(
-                        MSG_SHOW_NO_UPDATE_UI);
+                        MSG_SHOW_NO_UPDATE_UI).sendToTarget();
                 return null;
             }
 
@@ -188,29 +188,18 @@ public class UpdateManager {
                                 .trustAllCerts()
                                 .trustAllHosts()
                                 .body(HttpRequest.CHARSET_UTF8);
-                        Gson gson = new GsonBuilder()
-                                .enableComplexMapKeySerialization()
-                                .create();
-                        //info = gson.fromJson(json, UpdateInfo.class);
-                        Map tips = new HashMap<String,String>();
-                        info = new UpdateInfo();
-                        info.setApkUrl("https://raw.github.com/snowdream/android-autoupdate/master/docs/test/android-autoupdater-v0.0.2-release.apk");
-                        info.setVersionCode("2");
-                        info.setVersionName("2.0");
-                        tips.put("default", "update tip");
-                        tips.put("en", "update tip");
-                        tips.put("zh", "升级提示");
-                        tips.put("zh_CN","升级提示");
-                        info.setUpdateTips(tips);
-                        info.setPackageName("com.github.snowdream.android.apps");
-                        info.setForceUpdate(false);
 
+                        UpdateJsonParser jsonParser = new UpdateJsonParser();
+                        info = jsonParser.parse(json);
                     } catch (HttpRequest.HttpRequestException e) {
                         e.printStackTrace();
                         Log.e("HttpRequest.HttpRequestExceptio",e);
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
                         Log.e("JsonSyntaxException",e);
+                    } catch (UpdateException e) {
+                        e.printStackTrace();
+                        Log.e("UpdateException",e);
                     }
                     break;
             }
@@ -268,12 +257,12 @@ public class UpdateManager {
         downloadTask = new DownloadTask(context);
         downloadTask.setUrl(info.getApkUrl());
 
-        manager.add(downloadTask, new DownloadListener<Integer, DownloadTask>() {
+        manager.start(downloadTask, new DownloadListener<Integer, DownloadTask>() {
             @Override
             public void onProgressUpdate(Integer... values) {
                 super.onProgressUpdate(values);
                 handler.obtainMessage(
-                        MSG_SHOW_UPDATE_PROGRESS_UI, values[0], -1);
+                        MSG_SHOW_UPDATE_PROGRESS_UI, values[0], -1).sendToTarget();
             }
 
             @Override
