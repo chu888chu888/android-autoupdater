@@ -3,7 +3,6 @@ package com.github.snowdream.android.app;
 import android.text.TextUtils;
 
 import com.github.snowdream.android.util.Log;
-import com.google.gson.stream.JsonReader;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -17,7 +16,7 @@ import java.util.Map;
 /**
  * Created by snowdream on 1/3/14.
  */
-public class UpdateXmlParser implements IParser {
+public class UpdateXmlParser extends AbstractParser {
     /**
      * Parse the UpdateInfo form the string
      *
@@ -75,31 +74,31 @@ public class UpdateXmlParser implements IParser {
                         info = new UpdateInfo();
                     } else if (currentTag.equals(TAG_APP_NAME)) {
                         if (info != null) {
-                            info.setAppName(xpp.getAttributeValue(null, TAG_APP_NAME));
+                            info.setAppName(xpp.nextText());
                         }
                     } else if (currentTag.equals(TAG_APP_DESCRIPTION)) {
                         if (info != null) {
-                            info.setAppDescription(xpp.getAttributeValue(null, TAG_APP_DESCRIPTION));
+                            info.setAppDescription(xpp.nextText());
                         }
                     } else if (currentTag.equals(TAG_PACKAGE_NAME)) {
                         if (info != null) {
-                            info.setPackageName(xpp.getAttributeValue(null, TAG_PACKAGE_NAME));
+                            info.setPackageName(xpp.nextText());
                         }
                     } else if (currentTag.equals(TAG_VERSION_CODE)) {
                         if (info != null) {
-                            info.setVersionCode(xpp.getAttributeValue(null, TAG_VERSION_CODE));
+                            info.setVersionCode(xpp.nextText());
                         }
                     } else if (currentTag.equals(TAG_VERSION_NAME)) {
                         if (info != null) {
-                            info.setVersionName(xpp.getAttributeValue(null, TAG_VERSION_NAME));
+                            info.setVersionName(xpp.nextText());
                         }
                     } else if (currentTag.equals(TAG_FORCE_UPDATE)) {
                         if (info != null) {
-                            info.setForceUpdate(xpp.getAttributeValue(null, TAG_FORCE_UPDATE) == "true" ? true : false);
+                            info.setForceUpdate(xpp.nextText() == "true" ? true : false);
                         }
                     } else if (currentTag.equals(TAG_APK_URL)) {
                         if (info != null) {
-                            info.setApkUrl(xpp.getAttributeValue(null, TAG_APK_URL));
+                            info.setApkUrl(xpp.nextText());
                         }
                     } else if (currentTag.equals(TAG_UPDATE_TIPS)) {
                         Map<String, String> map = parseUpdateTips(xpp);
@@ -144,7 +143,7 @@ public class UpdateXmlParser implements IParser {
                     if (currentTag.equals(TAG_UPDATE_TIPS)) {
                         updateTips = new HashMap<String, String>();
                     } else {
-                        currentValue = xpp.getText();
+                        currentValue = xpp.nextText();
                         updateTips.put(currentTag, currentValue);
                     }
                     break;

@@ -15,7 +15,7 @@ import java.util.Map;
  * <p/>
  * Created by snowdream on 1/3/14.
  */
-public class UpdateJsonParser implements IParser {
+public class UpdateJsonParser extends AbstractParser {
 
 
     /**
