@@ -49,12 +49,14 @@ public class UpdateJsonParser implements IParser {
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("IOException", e);
+            throw new UpdateException(UpdateException.PARSE_ERROR);
         }finally{
             try {
                 jsonReader.close();
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e("jsonReader.close()", e);
+                throw new UpdateException(UpdateException.PARSE_ERROR);
             }
         }
 

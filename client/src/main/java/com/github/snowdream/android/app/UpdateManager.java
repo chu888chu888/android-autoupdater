@@ -14,12 +14,7 @@ import android.webkit.URLUtil;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.snowdream.android.util.Log;
 import com.github.snowdream.android.util.concurrent.AsyncTask;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -165,17 +160,26 @@ public class UpdateManager {
             String json = null;
             switch (options.getUpdateFormat()) {
                 case XML:
-                    xml = HttpRequest.get(url)
-                            .followRedirects(true)
-                            .accept("application/xml")
-                            .acceptCharset(HttpRequest.CHARSET_UTF8)
-                            .trustAllCerts()
-                            .trustAllHosts()
-                            .body(HttpRequest.CHARSET_UTF8);
+                    try {
+                        xml = HttpRequest.get(url)
+                                .followRedirects(true)
+                                .accept("application/xml")
+                                .acceptCharset(HttpRequest.CHARSET_UTF8)
+                                .trustAllCerts()
+                                .trustAllHosts()
+                                .body(HttpRequest.CHARSET_UTF8);
 
-                    if (!TextUtils.isEmpty(xml)) {
-                        // XMLSerializer xmlSerializer = new XMLSerializer();
-                        // json = xmlSerializer.read( xml );
+                        UpdateXmlParser xmlParser = new UpdateXmlParser();
+                        info = xmlParser.parse(xml);
+                    } catch (HttpRequest.HttpRequestException e) {
+                        e.printStackTrace();
+                        Log.e("HttpRequest.HttpRequestExceptio", e);
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
+                        Log.e("JsonSyntaxException", e);
+                    } catch (UpdateException e) {
+                        e.printStackTrace();
+                        Log.e("UpdateException", e);
                     }
                     break;
                 case JSON:
@@ -193,13 +197,13 @@ public class UpdateManager {
                         info = jsonParser.parse(json);
                     } catch (HttpRequest.HttpRequestException e) {
                         e.printStackTrace();
-                        Log.e("HttpRequest.HttpRequestExceptio",e);
+                        Log.e("HttpRequest.HttpRequestExceptio", e);
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
-                        Log.e("JsonSyntaxException",e);
+                        Log.e("JsonSyntaxException", e);
                     } catch (UpdateException e) {
                         e.printStackTrace();
-                        Log.e("UpdateException",e);
+                        Log.e("UpdateException", e);
                     }
                     break;
             }
@@ -217,7 +221,7 @@ public class UpdateManager {
                     String versionName = pinfo.versionName; // 1.0
                     String packageName = context.getPackageName();
 
-                    if (options.shouldCheckPackageName() && !updateInfo.getPackageName().equals(packageName)) {
+                    if (options.shouldCheckPackageName() && !packageName.equals(updateInfo.getPackageName())) {
                         ((AbstractUpdateListener) listener).onShowNoUpdateUI();
                         return;
                     }
