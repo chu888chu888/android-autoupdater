@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity {
             UpdateOptions options = new UpdateOptions.Builder(this)
                     .checkUrl("https://raw.github.com/snowdream/android-autoupdate/master/docs/test/updateinfo.xml")
                     .updateFormat(UpdateFormat.XML)
-                    .updatePeriod(UpdatePeriod.EACH_TIME)
+                    .updatePeriod(new UpdatePeriod(UpdatePeriod.EACH_TIME))
                     .checkPackageName(true)
                     .build();
 

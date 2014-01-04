@@ -3,8 +3,6 @@ package com.github.snowdream.android.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.github.snowdream.android.app.R;
-
 /**
  * Created by snowdream on 12/30/13.
  */

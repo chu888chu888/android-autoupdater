@@ -298,35 +298,9 @@ public class UpdateManager {
         SharedPreferences.Editor editor = sp.edit();
 
         long period = 0;
-        switch (options.getUpdatePeriod()) {
-            case NEVER:
-                period = -1;
-                break;
-            case EACH_ONE_DAY:
-                period = 1 * 24 * 60 * 60 * 1000;
-                break;
-            case EACH_TWO_DAYS:
-                period = 2 * 24 * 60 * 60 * 1000;
-                break;
-            case EACH_THREE_DAYS:
-                period = 3 * 24 * 60 * 60 * 1000;
-                break;
-            case EACH_ONE_WEEK:
-                period = 7 * 24 * 60 * 60 * 1000;
-                break;
-            case EACH_TWO_WEEKS:
-                period = 14 * 24 * 60 * 60 * 1000;
-                break;
-            case EACH_THREE_WEEKS:
-                period = 21 * 24 * 60 * 60 * 1000;
-                break;
-            case EACH_ONE_MONTH:
-                period = 30 * 24 * 60 * 60 * 1000;
-                break;
-            case EACH_TIME:
-            default:
-                period = 0;
-                break;
+        UpdatePeriod updatePeriod = options.getUpdatePeriod();
+        if (updatePeriod != null){
+            period = updatePeriod.getPeriodMillis();
         }
 
         long next = now + period;
