@@ -20,6 +20,7 @@ The server can answer a response as follows:
     <versionCode>2</versionCode>  
     <versionName>2.0</versionName>  
     <forceUpdate>false</forceUpdate>  
+    <autoUpdate>true</autoUpdate>
     <apkUrl>http://helloworld-snowdream.herokuapp.com/explorer-2.0.apk</apkUrl>
     <updateTips>
         <default>update tips</default>
@@ -43,6 +44,7 @@ The server can answer a response as follows:
         "versionCode": "2",
         "versionName": "2.0",
         "forceUpdate": false,
+        "autoUpdate": true,
         "apkUrl": "http://helloworld-snowdream.herokuapp.com/explorer-2.0.apk",
         "updateTips": {
                 "default": "update tips",
