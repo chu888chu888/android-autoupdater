@@ -234,7 +234,7 @@ public class UpdateManager {
                         if (!updateInfo.isForceUpdate() && !options.shouldForceUpdate() && skip_version_code.equalsIgnoreCase(updateInfo.getVersionCode())) {
                             ((AbstractUpdateListener) listener).onShowNoUpdateUI();
                         } else {
-                            if (options.shouldAutoUpdate()){
+                            if (options.shouldAutoUpdate()||updateInfo.isAutoUpdate()){
                                 informUpdate(updateInfo);
                             }else {
                                 ((AbstractUpdateListener) listener).onShowUpdateUI(updateInfo);
@@ -250,7 +250,6 @@ public class UpdateManager {
             }
         }
     }
-
 
     /**
      * user click to confirm the update

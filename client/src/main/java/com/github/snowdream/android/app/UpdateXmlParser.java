@@ -96,6 +96,10 @@ public class UpdateXmlParser extends AbstractParser {
                         if (info != null) {
                             info.setForceUpdate(xpp.nextText() == "true" ? true : false);
                         }
+                    } else if (currentTag.equals(TAG_AUTO_UPDATE)) {
+                        if (info != null) {
+                            info.setAutoUpdate(xpp.nextText() == "true" ? true : false);
+                        }
                     } else if (currentTag.equals(TAG_APK_URL)) {
                         if (info != null) {
                             info.setApkUrl(xpp.nextText());

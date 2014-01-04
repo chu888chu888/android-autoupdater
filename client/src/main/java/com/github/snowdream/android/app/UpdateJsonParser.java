@@ -87,6 +87,8 @@ public class UpdateJsonParser extends AbstractParser {
                 info.setVersionName(jsonReader.nextString());
             } else if (name.equals(TAG_FORCE_UPDATE)) {
                 info.setForceUpdate(jsonReader.nextBoolean());
+            } else if (name.equals(TAG_AUTO_UPDATE)) {
+                info.setAutoUpdate(jsonReader.nextBoolean());
             } else if (name.equals(TAG_APK_URL)) {
                 info.setApkUrl(jsonReader.nextString());
             } else if (name.equals(TAG_UPDATE_TIPS)) {

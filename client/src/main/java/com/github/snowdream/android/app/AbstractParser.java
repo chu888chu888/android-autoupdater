@@ -11,6 +11,7 @@ public abstract class AbstractParser {
     public final static String TAG_VERSION_CODE = "versionCode";
     public final static String TAG_VERSION_NAME = "versionName";
     public final static String TAG_FORCE_UPDATE = "forceUpdate";
+    public final static String TAG_AUTO_UPDATE = "autoUpdate";
     public final static String TAG_APK_URL = "apkUrl";
     public final static String TAG_UPDATE_TIPS = "updateTips";
 
