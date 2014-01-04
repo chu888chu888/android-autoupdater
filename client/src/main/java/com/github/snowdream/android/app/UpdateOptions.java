@@ -11,6 +11,7 @@ import com.github.snowdream.android.app.R;
 public final class UpdateOptions {
     private final UpdatePeriod updatePeriod;
     private final boolean forceUpdate;
+    private final boolean autoUpdate;
     private final boolean checkUpdate;
     private final boolean checkPackageName;
     private final String checkUrl;
@@ -21,6 +22,7 @@ public final class UpdateOptions {
         this.updatePeriod = builder.updatePeriod;
         this.forceUpdate = builder.forceUpdate;
         this.checkUpdate = builder.checkUpdate;
+        this.autoUpdate = builder.autoUpdate;
         this.checkPackageName = builder.checkPackageName;
         this.checkUrl = builder.checkUrl;
         this.context = builder.context;
@@ -110,6 +112,15 @@ public final class UpdateOptions {
     }
 
     /**
+     * Should the client auto update
+     *
+     * @return
+     */
+    public boolean shouldAutoUpdate() {
+        return autoUpdate;
+    }
+
+    /**
      * Should the client check PackageName
      *
      * @return
@@ -148,6 +159,7 @@ public final class UpdateOptions {
     public static class Builder {
         private UpdatePeriod updatePeriod = UpdatePeriod.EACH_TIME;
         private boolean forceUpdate = false;
+        private boolean autoUpdate = false;
         private String checkUrl = null;
         private Context context = null;
         private boolean checkUpdate = false;
@@ -177,6 +189,17 @@ public final class UpdateOptions {
          */
         public Builder forceUpdate(boolean forceUpdate) {
             this.forceUpdate = forceUpdate;
+            return this;
+        }
+
+        /**
+         * if new app is available, and the autoUpdate is true,then the client
+         * will check update and upgrade automatically.
+         *
+         * @return Builder
+         */
+        public Builder autoUpdate(boolean autoUpdate) {
+            this.autoUpdate = autoUpdate;
             return this;
         }
 

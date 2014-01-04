@@ -234,7 +234,11 @@ public class UpdateManager {
                         if (!updateInfo.isForceUpdate() && !options.shouldForceUpdate() && skip_version_code.equalsIgnoreCase(updateInfo.getVersionCode())) {
                             ((AbstractUpdateListener) listener).onShowNoUpdateUI();
                         } else {
-                            ((AbstractUpdateListener) listener).onShowUpdateUI(updateInfo);
+                            if (options.shouldAutoUpdate()){
+                                informUpdate(updateInfo);
+                            }else {
+                                ((AbstractUpdateListener) listener).onShowUpdateUI(updateInfo);
+                            }
                         }
                     } else {
                         ((AbstractUpdateListener) listener).onShowNoUpdateUI();

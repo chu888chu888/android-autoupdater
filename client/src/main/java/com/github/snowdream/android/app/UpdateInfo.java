@@ -12,6 +12,7 @@ public class UpdateInfo {
     private String versionCode = null;
     private String versionName = null;
     private boolean forceUpdate = false;
+    private boolean autoUpdate = false;
     private String apkUrl = null;
     private Map<String, String> updateTips = null;
 
@@ -61,6 +62,14 @@ public class UpdateInfo {
 
     public void setForceUpdate(boolean forceUpdate) {
         this.forceUpdate = forceUpdate;
+    }
+
+    public boolean isAutoUpdate() {
+        return autoUpdate;
+    }
+
+    public void setAutoUpdate(boolean autoUpdate) {
+        this.autoUpdate = autoUpdate;
     }
 
     public String getApkUrl() {
