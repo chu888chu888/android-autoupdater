@@ -1,4 +1,4 @@
-package com.github.snowdream.android.apps;
+package com.github.snowdream.android.apps.autoupdater;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
