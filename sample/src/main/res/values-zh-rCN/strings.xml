@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">升级演示</string>
+    <string name="click_to_check_update">点击进行更新</string>
+    <string name="action_settings">设置</string>
+
+</resources>

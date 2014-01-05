@@ -9,8 +9,12 @@
     tools:context="com.github.snowdream.android.apps.MainActivity$PlaceholderFragment">
 
     <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="@string/click_to_check_update"
+        android:layout_width="match_parent"
+        android:background="@android:drawable/btn_default"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onCheckUpdateClick"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

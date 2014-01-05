@@ -44,16 +44,6 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            UpdateManager manager = new UpdateManager(this);
-
-            UpdateOptions options = new UpdateOptions.Builder(this)
-                    .checkUrl("https://raw.github.com/snowdream/android-autoupdate/master/docs/test/updateinfo.xml")
-                    .updateFormat(UpdateFormat.XML)
-                    .updatePeriod(new UpdatePeriod(UpdatePeriod.EACH_TIME))
-                    .checkPackageName(true)
-                    .build();
-
-            manager.check(this, options);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -75,4 +65,24 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    public void onCheckUpdateClick(View v) {
+
+        UpdateManager manager = new UpdateManager(this);
+
+        UpdateOptions options = new UpdateOptions.Builder(this)
+                .checkUrl("https://raw.github.com/snowdream/android-autoupdate/master/docs/test/updateinfo.xml")
+                .updateFormat(UpdateFormat.XML)
+                .updatePeriod(new UpdatePeriod(UpdatePeriod.EACH_TIME))
+                .checkPackageName(true)
+                .build();
+//
+//        UpdateOptions options = new UpdateOptions.Builder(this)
+//                .checkUrl("https://raw.github.com/snowdream/android-autoupdate/master/docs/test/updateinfo.json")
+//                .updateFormat(UpdateFormat.JSON)
+//                .updatePeriod(new UpdatePeriod(UpdatePeriod.EACH_TIME))
+//                .checkPackageName(true)
+//                .build();
+
+        manager.check(this, options);
+    }
 }
