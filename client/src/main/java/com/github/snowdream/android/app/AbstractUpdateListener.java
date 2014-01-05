@@ -1,9 +1,15 @@
 package com.github.snowdream.android.app;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 
+import com.github.snowdream.android.util.Log;
 import com.github.snowdream.android.util.concurrent.TaskListener;
+
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by snowdream on 12/30/13.
@@ -129,4 +135,35 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
      * Exit the app here
      */
     public abstract void ExitApp();
+
+    /**
+     * Get the update tips for the current language
+     *
+     * @param info update info
+     * @return
+     */
+    public String getUpdateTips(UpdateInfo info) {
+        String tip = null;
+        Context context = getContext();
+        if (context == null || info == null) {
+            return tip;
+        }
+
+        Locale locale = context.getResources().getConfiguration().locale;
+        String language = locale.getLanguage();
+        Map<String,String> tips = info.getUpdateTips();
+        if (tips == null){
+            return tip;
+        }
+
+        if (language != null && tips.containsKey(language)){
+            tip = tips.get(language);
+        }else{
+            tip = tips.get("default");
+        }
+
+        return tip;
+    }
+
+
 }
