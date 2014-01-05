@@ -2,7 +2,7 @@
 <updateInfo>
     <appName>android-autoupdater</appName>
     <appDescription>android autoupdater</appDescription>
-    <packageName>com.github.snowdream.android.apps</packageName>
+    <packageName>com.github.snowdream.android.apps.autoupdater</packageName>
     <versionCode>2</versionCode>
     <versionName>2.0</versionName>
     <forceUpdate>false</forceUpdate>

@@ -75,7 +75,7 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
 
                 if (notificationBuilder == null) {
                     notificationBuilder = new NotificationCompat.Builder(context)
-                            .setSmallIcon(R.drawable.ic_launcher)
+                           // .setSmallIcon(R.drawable.ic_launcher)
                             .setContentTitle(task.getName())
                             .setContentText(task.getName())
                             .setAutoCancel(true);
