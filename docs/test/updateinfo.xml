@@ -7,7 +7,7 @@
     <versionName>2.0</versionName>
     <forceUpdate>false</forceUpdate>
     <autoUpdate>false</autoUpdate>
-    <apkUrl>https://raw.github.com/snowdream/android-autoupdate/master/docs/test/android-autoupdater-v0.0.2-release.apk</apkUrl>
+    <apkUrl>https://raw.github.com/snowdream/android-autoupdate/master/docs/test/android-autoupdater-v2.0-release.apk</apkUrl>
     <updateTips>
         <default>update tips</default>
         <en>update tips</en>
