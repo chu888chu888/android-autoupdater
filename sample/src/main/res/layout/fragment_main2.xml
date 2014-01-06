@@ -9,6 +9,7 @@
     tools:context="com.github.snowdream.android.apps.autoupdater.MainActivity$PlaceholderFragment">
 
     <TextView
+        android:id="@+id/textview"
         android:text="@string/click_to_check_update"
         android:layout_width="match_parent"
         android:background="@android:drawable/btn_default"

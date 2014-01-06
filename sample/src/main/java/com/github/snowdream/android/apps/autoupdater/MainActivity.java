@@ -1,5 +1,7 @@
 package com.github.snowdream.android.apps.autoupdater;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.snowdream.android.app.UpdateFormat;
 import com.github.snowdream.android.app.UpdateManager;
@@ -15,6 +18,7 @@ import com.github.snowdream.android.app.UpdateOptions;
 import com.github.snowdream.android.app.UpdatePeriod;
 
 public class MainActivity extends ActionBarActivity {
+    static String str = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,25 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        PackageInfo pinfo = null;
+        try {
+            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        Integer versionCode = pinfo.versionCode; // 1
+        String versionName = pinfo.versionName; // 1.0
+        str = new StringBuffer()
+                .append(getText(R.string.click_to_check_update))
+                .append("\n")
+                .append("versionCode:")
+                .append(versionCode)
+                .append("\n")
+                .append("versionName:")
+                .append(versionName)
+                .toString();
+
     }
 
 
@@ -61,6 +84,11 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main2, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.textview);
+            if (textView != null && str != null) {
+                textView.setText(str);
+            }
+
             return rootView;
         }
     }
