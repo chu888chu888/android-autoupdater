@@ -4,7 +4,7 @@
 android lib - autoupdater
 
 ##Demo
-[Github][0]
+[Github][0]  
 [Google Play][1]
 
 ##Preview
