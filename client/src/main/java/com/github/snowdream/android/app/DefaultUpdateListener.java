@@ -78,6 +78,10 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
 //                    largeIcon =((BitmapDrawable) icon).getBitmap();
 //                }
 
+                String contentTitle = task.getName();
+                String contentText = new StringBuffer().append(progress)
+                        .append("%").toString();
+                int smallIcon = context.getApplicationInfo().icon;
                 if (notificationManager == null) {
                     notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 }
@@ -85,9 +89,9 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
                 if (notificationBuilder == null) {
                     notificationBuilder = new NotificationCompat.Builder(context)
                            // .setLargeIcon(largeIcon)
-                            .setSmallIcon(context.getApplicationInfo().icon)
-                            .setContentTitle(task.getName())
-                            .setContentText(task.getName())
+                            .setSmallIcon(smallIcon)
+                            .setContentTitle(contentTitle)
+                            .setContentText(contentText)
                             .setAutoCancel(true);
                 }
                 notificationBuilder.setProgress(100, progress, false);
