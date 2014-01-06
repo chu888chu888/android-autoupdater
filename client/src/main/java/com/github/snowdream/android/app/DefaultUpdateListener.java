@@ -21,6 +21,26 @@ import com.github.snowdream.android.util.Log;
 public class DefaultUpdateListener extends AbstractUpdateListener {
     private NotificationManager notificationManager = null;
     private NotificationCompat.Builder notificationBuilder = null;
+    private AlertDialog alertDialog = null;
+
+    @Override
+    public void onStart() {
+        Context context = getContext();
+        if (context != null) {
+            alertDialog = new AlertDialog.Builder(context)
+                    .setMessage("正在获取最新版本信息...")
+                    .setCancelable(false)
+                    .create();
+            alertDialog.show();
+        }
+    }
+
+    @Override
+    public void onFinish() {
+        if (alertDialog != null){
+            alertDialog.dismiss();
+        }
+    }
 
     @Override
     public void onShowUpdateUI(final UpdateInfo info) {
@@ -55,14 +75,17 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
                     .create();
             dialog.show();
         }
-        //informUpdate(info);
     }
 
     @Override
     public void onShowNoUpdateUI() {
         Context context = getContext();
         if (context != null) {
-            Toast.makeText(context, "没有更新", Toast.LENGTH_SHORT).show();
+            AlertDialog dialog = new AlertDialog.Builder(context)
+                    .setMessage("当前已是最新版本")
+                    .setCancelable(true)
+                    .create();
+            dialog.show();
         }
     }
 
