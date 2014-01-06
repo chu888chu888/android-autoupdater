@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">android_gradle_template</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
+    <string name="autoupdate_checking">Checking…</string>
+    <string name="autoupdate_update_tips">Tips</string>
+    <string name="autoupdate_confirm">Confirm</string>
+    <string name="autoupdate_cancel">Cancel</string>
+    <string name="autoupdate_skip">Skip</string>
+    <string name="autoupdate_no_update">It is the latest branch</string>
 </resources>

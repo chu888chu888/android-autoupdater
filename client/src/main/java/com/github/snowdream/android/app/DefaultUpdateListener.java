@@ -28,7 +28,7 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
         Context context = getContext();
         if (context != null) {
             alertDialog = new AlertDialog.Builder(context)
-                    .setMessage("正在获取最新版本信息...")
+                    .setMessage(context.getText(R.string.autoupdate_checking))
                     .setCancelable(false)
                     .create();
             alertDialog.show();
@@ -37,7 +37,7 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
 
     @Override
     public void onFinish() {
-        if (alertDialog != null){
+        if (alertDialog != null) {
             alertDialog.dismiss();
         }
     }
@@ -51,21 +51,21 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
         Context context = getContext();
         if (context != null) {
             AlertDialog dialog = new AlertDialog.Builder(context)
-                    .setTitle("更新提示")
+                    .setTitle(context.getText(R.string.autoupdate_update_tips))
                     .setMessage(getUpdateTips(info))
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(context.getText(R.string.autoupdate_confirm), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             informUpdate(info);
                         }
                     })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(context.getText(R.string.autoupdate_cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             informCancel(info);
                         }
                     })
-                    .setNeutralButton("忽略", new DialogInterface.OnClickListener() {
+                    .setNeutralButton(context.getText(R.string.autoupdate_skip), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             informSkip(info);
@@ -82,7 +82,7 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
         Context context = getContext();
         if (context != null) {
             AlertDialog dialog = new AlertDialog.Builder(context)
-                    .setMessage("当前已是最新版本")
+                    .setMessage(context.getText(R.string.autoupdate_no_update))
                     .setCancelable(true)
                     .create();
             dialog.show();

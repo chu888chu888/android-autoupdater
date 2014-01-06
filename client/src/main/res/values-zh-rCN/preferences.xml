@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preference_key_next_check_update_time">next_check_update_time</string>
+    <string name="preference_key_skip_check_update_version_code">skip_check_update_version_code</string>
+
+    <string name="preference_name">android_autoupdate_preference</string>
+</resources>
