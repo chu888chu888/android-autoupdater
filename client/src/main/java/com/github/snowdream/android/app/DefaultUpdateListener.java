@@ -2,6 +2,7 @@ package com.github.snowdream.android.app;
 
 import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -101,6 +103,7 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
 //                    largeIcon =((BitmapDrawable) icon).getBitmap();
 //                }
 
+                PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_CANCEL_CURRENT);
                 String contentTitle = info.getAppName();
                 String contentText = new StringBuffer().append(progress)
                         .append("%").toString();
@@ -115,6 +118,7 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
                             .setSmallIcon(smallIcon)
                             .setContentTitle(contentTitle)
                             .setContentText(contentText)
+                            .setContentIntent(contentIntent)
                             .setAutoCancel(true);
                 }
                 notificationBuilder.setContentText(contentText);
