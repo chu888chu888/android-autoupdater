@@ -78,7 +78,7 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
      *
      * @param info the info for the new app
      */
-    public abstract void onShowUpdateUI(UpdateInfo info);
+    public abstract void onShowUpdateUI(final UpdateInfo info);
 
     /**
      * It's the latest app,or there is no need to update.
@@ -88,12 +88,12 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
     /**
      * show the progress when downloading the new app
      */
-    public abstract void onShowUpdateProgressUI(DownloadTask task, int progress);
+    public abstract void onShowUpdateProgressUI(final UpdateInfo info,final DownloadTask task, final int progress);
 
     /**
      * user click to confirm the update
      */
-    public final void informUpdate(UpdateInfo info) {
+    public final void informUpdate(final UpdateInfo info) {
         if (handler != null) {
             handler.obtainMessage(
                     UpdateManager.MSG_INFORM_UPDATE,
@@ -104,7 +104,7 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
     /**
      * user click to cancel the update
      */
-    public final void informCancel(UpdateInfo info) {
+    public final void informCancel(final UpdateInfo info) {
         if (handler != null) {
             handler.obtainMessage(
                     UpdateManager.MSG_INFORM_CANCEL);
@@ -119,7 +119,7 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
     /**
      * user click to skip the update
      */
-    public final void informSkip(UpdateInfo info) {
+    public final void informSkip(final UpdateInfo info) {
         if (handler != null) {
             handler.obtainMessage(
                     UpdateManager.MSG_INFORM_SKIP, info).sendToTarget();
@@ -151,14 +151,14 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
 
         Locale locale = context.getResources().getConfiguration().locale;
         String language = locale.getLanguage();
-        Map<String,String> tips = info.getUpdateTips();
-        if (tips == null){
+        Map<String, String> tips = info.getUpdateTips();
+        if (tips == null) {
             return tip;
         }
 
-        if (language != null && tips.containsKey(language)){
+        if (language != null && tips.containsKey(language)) {
             tip = tips.get(language);
-        }else{
+        } else {
             tip = tips.get("default");
         }
 

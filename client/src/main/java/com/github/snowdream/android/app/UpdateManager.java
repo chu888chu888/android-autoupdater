@@ -234,9 +234,9 @@ public class UpdateManager {
                         if (!updateInfo.isForceUpdate() && !options.shouldForceUpdate() && skip_version_code.equalsIgnoreCase(updateInfo.getVersionCode())) {
                             ((AbstractUpdateListener) listener).onShowNoUpdateUI();
                         } else {
-                            if (options.shouldAutoUpdate()||updateInfo.isAutoUpdate()){
+                            if (options.shouldAutoUpdate() || updateInfo.isAutoUpdate()) {
                                 informUpdate(updateInfo);
-                            }else {
+                            } else {
                                 ((AbstractUpdateListener) listener).onShowUpdateUI(updateInfo);
                             }
                         }
@@ -254,7 +254,7 @@ public class UpdateManager {
     /**
      * user click to confirm the update
      */
-    private void informUpdate(UpdateInfo info) {
+    private void informUpdate(final UpdateInfo info) {
         if (info == null) {
             return;
         }
@@ -269,7 +269,7 @@ public class UpdateManager {
             public void onProgressUpdate(Integer... values) {
                 super.onProgressUpdate(values);
                 handler.obtainMessage(
-                        MSG_SHOW_UPDATE_PROGRESS_UI, values[0], -1).sendToTarget();
+                        MSG_SHOW_UPDATE_PROGRESS_UI, values[0], -1,info).sendToTarget();
             }
 
             @Override
@@ -298,7 +298,7 @@ public class UpdateManager {
 
         long period = 0;
         UpdatePeriod updatePeriod = options.getUpdatePeriod();
-        if (updatePeriod != null){
+        if (updatePeriod != null) {
             period = updatePeriod.getPeriodMillis();
         }
 
@@ -313,13 +313,13 @@ public class UpdateManager {
     /**
      * user click to cancel the update
      */
-    private void informCancel(UpdateInfo info) {
+    private void informCancel(final UpdateInfo info) {
     }
 
     /**
      * user click to skip the update
      */
-    private void informSkip(UpdateInfo info) {
+    private void informSkip(final UpdateInfo info) {
         if (info == null) {
             return;
         }
@@ -349,7 +349,7 @@ public class UpdateManager {
                     break;
                 case MSG_SHOW_UPDATE_PROGRESS_UI:
                     if (downloadTask != null) {
-                        listener.onShowUpdateProgressUI(downloadTask, msg.arg1);
+                        listener.onShowUpdateProgressUI((UpdateInfo) msg.obj,downloadTask, msg.arg1);
                     }
                     break;
                 case MSG_INFORM_UPDATE:

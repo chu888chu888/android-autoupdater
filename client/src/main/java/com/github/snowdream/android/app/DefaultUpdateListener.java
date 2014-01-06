@@ -67,9 +67,9 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
     }
 
     @Override
-    public void onShowUpdateProgressUI(DownloadTask task, int progress) {
+    public void onShowUpdateProgressUI(final UpdateInfo info, final DownloadTask task, final int progress) {
         Context context = getContext();
-        if (context != null && task != null) {
+        if (context != null && task != null && info != null) {
             try {
 //                Bitmap largeIcon = null;
                 PackageManager pm = context.getPackageManager();
@@ -78,7 +78,7 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
 //                    largeIcon =((BitmapDrawable) icon).getBitmap();
 //                }
 
-                String contentTitle = task.getName();
+                String contentTitle = info.getAppName();
                 String contentText = new StringBuffer().append(progress)
                         .append("%").toString();
                 int smallIcon = context.getApplicationInfo().icon;
@@ -88,12 +88,13 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
 
                 if (notificationBuilder == null) {
                     notificationBuilder = new NotificationCompat.Builder(context)
-                           // .setLargeIcon(largeIcon)
+                            // .setLargeIcon(largeIcon)
                             .setSmallIcon(smallIcon)
                             .setContentTitle(contentTitle)
                             .setContentText(contentText)
                             .setAutoCancel(true);
                 }
+                notificationBuilder.setContentText(contentText);
                 notificationBuilder.setProgress(100, progress, false);
                 notificationManager.notify(0, notificationBuilder.build());
             } catch (PackageManager.NameNotFoundException e) {
