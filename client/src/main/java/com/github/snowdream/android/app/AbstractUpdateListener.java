@@ -88,7 +88,7 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
     /**
      * show the progress when downloading the new app
      */
-    public abstract void onShowUpdateProgressUI(final UpdateInfo info,final DownloadTask task, final int progress);
+    public abstract void onShowUpdateProgressUI(final UpdateInfo info, final DownloadTask task, final int progress);
 
     /**
      * user click to confirm the update
@@ -162,7 +162,8 @@ public abstract class AbstractUpdateListener extends TaskListener<Integer, Updat
             tip = tips.get("default");
         }
 
-        return tip;
+        //Android textview not supporting line break.see http://stackoverflow.com/a/12422965/821624
+        return tip.replace("\\n", "\n");
     }
 
 
