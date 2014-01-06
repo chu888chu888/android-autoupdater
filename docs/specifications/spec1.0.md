@@ -63,7 +63,8 @@ The server can answer a response as follows:
 * *appDescription*: the description of the app
 * *versionCode*: the versionCode for the new version of app
 * *versionName*: the versionName for the new version of app
-* *forceUpdate*: whether the client should update.if true,then when the user cancel the update,exit the application. 
+* *forceUpdate*: whether the client should update.if true,then when the user cancel the update,exit the application.
+* *autoUpdate*: whether the client should update automatically.if true,the new app will be downloaded and install automatically.
 * *apkUrl*: the url for the new version of app
 * *updateTips*: the update tips for the new version of app
 
