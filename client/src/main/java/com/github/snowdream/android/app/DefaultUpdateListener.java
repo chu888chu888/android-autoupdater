@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -68,14 +71,21 @@ public class DefaultUpdateListener extends AbstractUpdateListener {
         Context context = getContext();
         if (context != null && task != null) {
             try {
-                PackageInfo pinfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+//                Bitmap largeIcon = null;
+                PackageManager pm = context.getPackageManager();
+                Drawable icon = pm.getApplicationIcon(context.getPackageName());
+//                if (icon != null){
+//                    largeIcon =((BitmapDrawable) icon).getBitmap();
+//                }
+
                 if (notificationManager == null) {
                     notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 }
 
                 if (notificationBuilder == null) {
                     notificationBuilder = new NotificationCompat.Builder(context)
-                           // .setSmallIcon(R.drawable.ic_launcher)
+                           // .setLargeIcon(largeIcon)
+                            .setSmallIcon(context.getApplicationInfo().icon)
                             .setContentTitle(task.getName())
                             .setContentText(task.getName())
                             .setAutoCancel(true);
