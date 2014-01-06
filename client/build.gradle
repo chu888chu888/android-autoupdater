@@ -23,9 +23,9 @@ apply from: '../config/maven_push.gradle'
 dependencies {
     //compile project(':lib')
     compile 'com.github.snowdream.android.util:log:1.0.4'
-    compile 'com.github.snowdream.android.app:downloader:0.0.1'
+    compile 'com.github.snowdream.android.app:downloader:1.0'
     compile 'com.github.snowdream.android.util.concurrent:multithread:0.0.7'
     compile 'com.github.kevinsawicki:http-request:5.5'
-    compile ('com.google.code.gson:gson:2.2.4')
+    compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.android.support:appcompat-v7:+'
 }
